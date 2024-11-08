@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horoscope Matcher</title>
+</head>
+<body>
+    <h1>Horoscope Matcher</h1>
+    <button id="matchHoroscopeButton">Match Horoscope</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function matchHoroscope() {
+            const url = "https://astroever.com/MatchHoroscope.php";
+            const formData = new FormData();
+
+            // Add form data
+            formData.append("D3", "1990");
+            formData.append("D4", "01");
+            formData.append("D5", "01");
+            formData.append("D1", "06");
+            formData.append("D2", "00");
+            formData.append("places", "194");
+            formData.append("latitude", "6.54 N");
+            formData.append("longitude", "79.52");
+            formData.append("BirthDetails", "Birth Date : 1990-01-01  Time: 06:00");
+            formData.append("D3_M", "1990");
+            formData.append("D4_M", "01");
+            formData.append("D5_M", "01");
+            formData.append("D1_M", "06");
+            formData.append("D2_M", "00");
+            formData.append("places_M", "194");
+            formData.append("latitude_M", "6.54 N");
+            formData.append("longitude_M", "79.52");
+            formData.append("BirthDetails", "Birth Date : 1990-01-01  Time: 06:00");
+            formData.append("btnFindZodiac", "Match Horoscope");
+
+            try {
+                // Send POST request
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Get the HTML response as text
+                const htmlResponse = await response.text();
+
+                // Parse the response to JSON using the provided function
+                const jsonOutput = parseHoroscopeResponse(htmlResponse);
+
+                // Display the JSON result
+                document.getElementById("output").textContent = jsonOutput;
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("output").textContent = `Error: ${error.message}`;
+            }
+        }
+
+        function parseHoroscopeResponse(htmlResponse) {
+            // Create a temporary DOM element to parse the HTML response
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlResponse, "text/html");
+
+            // Locate the table with the relevant data
+            const table = doc.querySelector("table[style*='width']");
+            if (!table) {
+                console.error("Specified table not found in the HTML response.");
+                return JSON.stringify({ error: "Specified table not found." });
+            }
+
+            // Initialize an array to hold the table rows as JSON objects
+            const porondamData = [];
+
+            // Iterate through the rows of the table
+            const rows = table.querySelectorAll("tr");
+            rows.forEach((row) => {
+                const cells = row.querySelectorAll("td, th");
+                if (cells.length > 0) {
+                    const rowData = {};
+                    rowData["Nakatha"] = cells[0] ? cells[0].textContent.trim() : "";
+                    rowData["Female"] = cells[1] ? cells[1].textContent.trim() : "";
+                    rowData["Male"] = cells[2] ? cells[2].textContent.trim() : "";
+                    rowData["Result"] = cells[3] ? cells[3].textContent.trim() : "";
+                    porondamData.push(rowData);
+                }
+            });
+
+            // Convert the table data into a JSON structure
+            const jsonResponse = {
+                PorondamData: porondamData,
+            };
+
+            // Return the JSON string
+            return JSON.stringify(jsonResponse, null, 2);
+        }
+
+        // Add event listener to the button
+        document.getElementById("matchHoroscopeButton").addEventListener("click", matchHoroscope);
+    </script>
+</body>
+</html>
