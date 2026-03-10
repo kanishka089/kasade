@@ -10,7 +10,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/admin/dashboard').then((r) => setStats((r as Record<string, unknown>).data as Record<string, unknown>)).catch(() => {}).finally(() => setLoading(false));
+    api.get('/admin/dashboard').then((r) => setStats(r.data as Record<string, unknown>)).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
@@ -34,7 +34,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <p className="text-sm text-gray-500">{label}</p>
-                <p className="text-2xl font-bold">{value}</p>
+                <p className="text-2xl font-bold">{String(value)}</p>
               </div>
             </div>
           </Card>

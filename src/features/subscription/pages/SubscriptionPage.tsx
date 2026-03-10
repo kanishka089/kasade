@@ -14,8 +14,10 @@ export default function SubscriptionPage() {
 
   useEffect(() => {
     Promise.all([
-      api.get('/subscription/plans').then((r) => { const d = r as Record<string, unknown>; setPlans(d.data as SubscriptionPlan[] || []); }).catch(() => {}),
-      api.get('/subscription/status').then((r) => { const d = r as Record<string, unknown>; const dd = d.data as Record<string, unknown> | undefined; setStatus((dd?.subscription ?? dd) as Record<string, unknown>); }).catch(() => {}),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      api.get('/subscription/plans').then((r: any) => { setPlans(r.data as SubscriptionPlan[] || []); }).catch(() => {}),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      api.get('/subscription/status').then((r: any) => { const dd = r.data as Record<string, unknown> | undefined; setStatus((dd?.subscription ?? dd) as Record<string, unknown>); }).catch(() => {}),
     ]).finally(() => setLoading(false));
   }, []);
 
@@ -33,7 +35,7 @@ export default function SubscriptionPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-500">{t('subscription.currentPlan')}</p>
-              <p className="text-lg font-semibold capitalize">{status.status}</p>
+              <p className="text-lg font-semibold capitalize">{String(status.status)}</p>
             </div>
             <Badge variant={status.status === 'active' ? 'success' : status.status === 'expired' ? 'danger' : 'default'}>
               {t(`subscription.${status.status}`)}

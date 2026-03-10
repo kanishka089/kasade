@@ -47,7 +47,7 @@ export default function MyProfilePage() {
 
   useEffect(() => {
     api.get('/profile/me').then((res) => {
-      setProfile((res as Record<string, unknown>).data as UserProfile);
+      setProfile(res.data as UserProfile);
     }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 

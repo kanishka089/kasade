@@ -25,7 +25,8 @@ export default function HomePage() {
           page: 1,
           limit: 20,
         });
-        const resData = res as Record<string, unknown>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const resData = res as any;
         const profilesData = (resData.data as Record<string, unknown>)?.profiles as Record<string, unknown>[] || [];
         const list = profilesData.map((p) => ({
           ...p,

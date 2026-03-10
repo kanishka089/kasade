@@ -35,7 +35,8 @@ export default function MatchToolPage() {
         payload.person2 = { rashi: Number(b.rashi), nakshatra: Number(b.nakshatra) };
       }
 
-      const res = await api.post('/match/custom', payload) as Record<string, unknown>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const res = await api.post('/match/custom', payload) as any;
       const resData = res.data as Record<string, unknown> | undefined;
       setResult((resData?.compatibility ?? res.compatibility ?? resData) as MatchResult);
     } catch { /* ignored */
@@ -44,9 +45,11 @@ export default function MatchToolPage() {
     }
   };
 
-  const loadMyHoroscope = async (form: ReturnType<typeof useForm>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const loadMyHoroscope = async (form: any) => {
     try {
-      const res = await api.get('/profile/me') as Record<string, unknown>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const res = await api.get('/profile/me') as any;
       const resData = res.data as Record<string, unknown> | undefined;
       const horoscope = resData?.horoscope as Record<string, unknown> | undefined;
       if (horoscope) {
@@ -57,7 +60,8 @@ export default function MatchToolPage() {
     } catch { /* ignored */ }
   };
 
-  const PersonForm = ({ form, label }: { form: ReturnType<typeof useForm>; label: string }) => (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const PersonForm = ({ form, label }: { form: any; label: string }) => (
     <Card header={<div className="flex items-center gap-2"><User className="h-4 w-4" /><span className="font-semibold">{label}</span></div>}>
       {inputMode === 'birth' ? (
         <div className="space-y-3">

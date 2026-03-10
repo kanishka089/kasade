@@ -60,7 +60,7 @@ function ErrorFallback({ error, onRetry, onGoHome }: { error: Error | null; onRe
         <p className="text-gray-600 mb-6">
           An unexpected error occurred. Please try again or return to the home page.
         </p>
-        {error && process.env.NODE_ENV === 'development' && (
+        {error && import.meta.env.DEV && (
           <pre className="text-left text-xs text-red-600 bg-red-50 rounded-lg p-3 mb-6 overflow-auto max-h-32">
             {error.message}
           </pre>

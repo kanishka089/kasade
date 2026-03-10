@@ -35,22 +35,7 @@ const S = 320;
 const H = S / 2; // 160
 const Q = S / 4; // 80
 
-// House polygon vertices (12 triangular houses) - kept for reference
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _HOUSE_POLYGONS: string[] = [
-  /* 1  top center   */ `${H},0 ${Q},${Q} ${H+Q},${Q}`,
-  /* 2  top-left up  */ `0,0 ${H},0 ${Q},${Q}`,
-  /* 3  top-left low */ `0,0 ${Q},${Q} 0,${H}`,
-  /* 4  left center  */ `0,${H} ${Q},${Q} ${Q},${H+Q}`,
-  /* 5  bot-left up  */ `0,${S} 0,${H} ${Q},${H+Q}`,
-  /* 6  bot-left low */ `0,${S} ${Q},${H+Q} ${H},${S}`,
-  /* 7  bottom center*/ `${H},${S} ${Q},${H+Q} ${H+Q},${H+Q}`,
-  /* 8  bot-right lo */ `${S},${S} ${H},${S} ${H+Q},${H+Q}`,
-  /* 9  bot-right up */ `${S},${S} ${H+Q},${H+Q} ${S},${H}`,
-  /* 10 right center */ `${S},${H} ${H+Q},${H+Q} ${H+Q},${Q}`,
-  /* 11 top-right lo */ `${S},0 ${S},${H} ${H+Q},${Q}`,
-  /* 12 top-right up */ `${S},0 ${H},0 ${H+Q},${Q}`,
-];
+// House polygon vertices (12 triangular houses) - removed, kept for reference in docs
 
 // Text centers for each house (approximate centroids)
 const HOUSE_CENTERS: [number, number][] = [

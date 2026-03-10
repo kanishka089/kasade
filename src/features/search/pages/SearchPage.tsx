@@ -35,7 +35,8 @@ export default function SearchPage() {
         page: p,
         limit: 20,
       });
-      const resData = (res as Record<string, unknown>).data as Record<string, unknown> | undefined;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const resData = (res as any).data as Record<string, unknown> | undefined;
       const profilesList = (resData?.profiles as Record<string, unknown>[] || []).map((p) => ({
         ...p,
         compatibilityScore: (p.compatibility as Record<string, unknown>)?.percentage as number | undefined,

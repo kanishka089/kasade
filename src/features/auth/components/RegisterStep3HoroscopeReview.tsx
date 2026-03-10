@@ -16,7 +16,8 @@ interface Props {
 export function RegisterStep3HoroscopeReview({ data, updateData, onNext, onPrev }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
-  const [calculated, setCalculated] = useState<Record<string, unknown> | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [calculated, setCalculated] = useState<Record<string, any> | null>(null);
   const [error, setError] = useState('');
   const [choice, setChoice] = useState<'calculated' | 'provided'>('calculated');
 
@@ -34,7 +35,8 @@ export function RegisterStep3HoroscopeReview({ data, updateData, onNext, onPrev 
             timezone: 'Asia/Colombo',
           },
         });
-        const responseData = (response as Record<string, unknown>).data as Record<string, unknown>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const responseData = response.data as Record<string, any>;
         setCalculated(responseData);
         updateData({ calculatedHoroscope: responseData });
       } catch {

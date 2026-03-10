@@ -15,7 +15,7 @@ export default function EditProfilePage() {
 
   useEffect(() => {
     api.get('/profile/me').then((res) => {
-      reset((res as Record<string, unknown>).data as Record<string, unknown>);
+      reset(res.data as Record<string, unknown>);
     }).catch(() => {}).finally(() => setLoading(false));
   }, [reset]);
 

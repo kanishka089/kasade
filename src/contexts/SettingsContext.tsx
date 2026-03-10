@@ -29,7 +29,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const fetchSettings = async () => {
     try {
       const response = await api.get('/admin/settings');
-      setSettings((response as Record<string, unknown>).data as GlobalSettings || defaultSettings);
+      setSettings(response.data as GlobalSettings || defaultSettings);
     } catch {
       setSettings(defaultSettings);
     } finally {

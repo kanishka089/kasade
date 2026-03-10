@@ -34,7 +34,8 @@ export function RegisterStep4ProfileDetails({ data, updateData, onNext, onPrev }
   const selectedDistrict = watch('district');
   const districtData = SRI_LANKAN_DISTRICTS.find((d) => d.name === selectedDistrict);
 
-  const onSubmit = (values: Record<string, string | number>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = (values: Record<string, any>) => {
     updateData({
       education: values.education,
       occupation: values.occupation,

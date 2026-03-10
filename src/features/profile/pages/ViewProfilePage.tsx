@@ -51,8 +51,10 @@ export default function ViewProfilePage() {
   useEffect(() => {
     if (!uid) return;
     Promise.all([
-      api.get(`/profile/${uid}`).then((r) => { const d = r as Record<string, unknown>; setProfile((d.data ?? d) as UserProfile); }).catch(() => {}),
-      api.get(`/match/${uid}`).then((r) => { const d = r as Record<string, unknown>; const dd = d.data as Record<string, unknown> | undefined; setMatch((dd?.compatibility ?? d.compatibility ?? dd) as MatchResult); }).catch(() => {}),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      api.get(`/profile/${uid}`).then((r: any) => { setProfile((r.data ?? r) as UserProfile); }).catch(() => {}),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      api.get(`/match/${uid}`).then((r: any) => { const dd = r.data as Record<string, unknown> | undefined; setMatch((dd?.compatibility ?? r.compatibility ?? dd) as MatchResult); }).catch(() => {}),
     ]).finally(() => setLoading(false));
   }, [uid]);
 
