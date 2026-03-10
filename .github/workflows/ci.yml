@@ -57,6 +57,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          VITE_FIREBASE_API_KEY: AIzaSyCphukUum-CcMA7IxE4qLPsNlQ8dO83X9E
+          VITE_FIREBASE_AUTH_DOMAIN: kasade-lk.firebaseapp.com
+          VITE_FIREBASE_PROJECT_ID: kasade-lk
+          VITE_FIREBASE_STORAGE_BUCKET: kasade-lk.firebasestorage.app
+          VITE_FIREBASE_MESSAGING_SENDER_ID: "790024226727"
+          VITE_FIREBASE_APP_ID: 1:790024226727:web:f97d5fe1cf5eb8a2b51882
+          VITE_API_URL: https://us-central1-kasade-lk.cloudfunctions.net/api
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
