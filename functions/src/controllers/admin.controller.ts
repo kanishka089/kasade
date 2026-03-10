@@ -191,7 +191,7 @@ export async function updateSettings(req: AuthRequest, res: Response): Promise<v
   try {
     const parsed = adminSettingsSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json(error(parsed.error.issues.map((e: any) => e.message).join(', ')));
+      res.status(400).json(error(parsed.error.issues.map((e: { message: string }) => e.message).join(', ')));
       return;
     }
 
@@ -209,7 +209,7 @@ export async function manageSubscriptionPlan(req: AuthRequest, res: Response): P
   try {
     const parsed = subscriptionPlanSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json(error(parsed.error.issues.map((e: any) => e.message).join(', ')));
+      res.status(400).json(error(parsed.error.issues.map((e: { message: string }) => e.message).join(', ')));
       return;
     }
 

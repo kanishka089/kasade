@@ -28,7 +28,7 @@ export async function updateMyProfile(req: AuthRequest, res: Response): Promise<
   try {
     const parsed = profileUpdateSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json(error(parsed.error.issues.map((e: any) => e.message).join(', ')));
+      res.status(400).json(error(parsed.error.issues.map((e: { message: string }) => e.message).join(', ')));
       return;
     }
 
@@ -129,7 +129,7 @@ export async function uploadPhoto(req: AuthRequest, res: Response): Promise<void
         return;
       }
       photos.push(publicUrl);
-      const update: any = { photos, updatedAt: new Date().toISOString() };
+      const update: Record<string, unknown> = { photos, updatedAt: new Date().toISOString() };
       if (isProfilePhoto || !profile.profilePhoto) {
         update.profilePhoto = publicUrl;
       }

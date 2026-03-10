@@ -9,7 +9,7 @@ export async function register(req: AuthRequest, res: Response): Promise<void> {
   try {
     const parsed = registerSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json(error(parsed.error.issues.map((e: any) => e.message).join(', ')));
+      res.status(400).json(error(parsed.error.issues.map((e: { message: string }) => e.message).join(', ')));
       return;
     }
 
@@ -83,7 +83,7 @@ export async function completeProfile(req: AuthRequest, res: Response): Promise<
   try {
     const parsed = completeProfileSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json(error(parsed.error.issues.map((e: any) => e.message).join(', ')));
+      res.status(400).json(error(parsed.error.issues.map((e: { message: string }) => e.message).join(', ')));
       return;
     }
 

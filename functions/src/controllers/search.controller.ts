@@ -12,7 +12,7 @@ export async function searchProfiles(req: AuthRequest, res: Response): Promise<v
   try {
     const parsed = searchFiltersSchema.safeParse(req.body);
     if (!parsed.success) {
-      res.status(400).json(error(parsed.error.issues.map((e: any) => e.message).join(', ')));
+      res.status(400).json(error(parsed.error.issues.map((e: { message: string }) => e.message).join(', ')));
       return;
     }
 
