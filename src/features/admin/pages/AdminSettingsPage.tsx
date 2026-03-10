@@ -17,7 +17,7 @@ export default function AdminSettingsPage() {
       setSaving(true);
       await api.put('/admin/settings', form);
       await refresh();
-    } catch {} finally { setSaving(false); }
+    } catch { /* ignored */ } finally { setSaving(false); }
   };
 
   if (!form) return <div className="flex justify-center py-12"><Spinner /></div>;

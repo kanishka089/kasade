@@ -65,7 +65,8 @@ export async function searchProfiles(req: AuthRequest, res: Response): Promise<v
         }
 
         // Hide contact number in search results
-        const { contactNumber: _hidden, ...safeProfile } = profile;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { contactNumber: _contactNumber, ...safeProfile } = profile;
         return { ...safeProfile, compatibility };
       });
 

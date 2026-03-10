@@ -16,7 +16,7 @@ interface Props {
 export function RegisterStep3HoroscopeReview({ data, updateData, onNext, onPrev }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
-  const [calculated, setCalculated] = useState<any>(null);
+  const [calculated, setCalculated] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState('');
   const [choice, setChoice] = useState<'calculated' | 'provided'>('calculated');
 
@@ -24,7 +24,7 @@ export function RegisterStep3HoroscopeReview({ data, updateData, onNext, onPrev 
     const generate = async () => {
       try {
         setLoading(true);
-        const response: any = await api.post('/horoscope/generate', {
+        const response = await api.post('/horoscope/generate', {
           birthDate: data.dateOfBirth,
           birthTime: data.birthTime,
           birthPlace: {
@@ -34,8 +34,9 @@ export function RegisterStep3HoroscopeReview({ data, updateData, onNext, onPrev 
             timezone: 'Asia/Colombo',
           },
         });
-        setCalculated(response.data);
-        updateData({ calculatedHoroscope: response.data });
+        const responseData = (response as Record<string, unknown>).data as Record<string, unknown>;
+        setCalculated(responseData);
+        updateData({ calculatedHoroscope: responseData });
       } catch {
         setError('Could not generate horoscope. You can continue with your provided data or try again.');
       } finally {

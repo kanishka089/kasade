@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Heart, Sparkles, Shield, Users } from 'lucide-react';
+import { Sparkles, Shield, Users } from 'lucide-react';
 import { Button, Spinner } from '@/components/ui';
 import { ProfileCard } from '@/components/shared/ProfileCard';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,18 +20,20 @@ export default function HomePage() {
     const fetchProfiles = async () => {
       try {
         setLoading(true);
-        const res: any = await api.post('/search', {
+        const res = await api.post('/search', {
           ageRange: { min: 18, max: 80 },
           page: 1,
           limit: 20,
         });
-        const list = (res.data?.profiles || []).map((p: any) => ({
+        const resData = res as Record<string, unknown>;
+        const profilesData = (resData.data as Record<string, unknown>)?.profiles as Record<string, unknown>[] || [];
+        const list = profilesData.map((p) => ({
           ...p,
-          compatibilityScore: p.compatibility?.percentage,
-        }));
-        list.sort((a: any, b: any) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
+          compatibilityScore: (p.compatibility as Record<string, unknown>)?.percentage as number | undefined,
+        })) as (UserProfile & { compatibilityScore?: number })[];
+        list.sort((a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
         setProfiles(list);
-      } catch {
+      } catch { /* ignored */
       } finally {
         setLoading(false);
       }

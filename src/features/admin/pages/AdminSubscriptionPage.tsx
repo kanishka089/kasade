@@ -26,9 +26,9 @@ export default function AdminSubscriptionPage() {
   const fetchPlans = async () => {
     try {
       setLoading(true);
-      const res: any = await api.get('/subscription/plans');
-      setPlans(res.data || []);
-    } catch {} finally { setLoading(false); }
+      const res = await api.get('/subscription/plans') as Record<string, unknown>;
+      setPlans(res.data as SubscriptionPlan[] || []);
+    } catch { /* ignored */ } finally { setLoading(false); }
   };
 
   useEffect(() => { fetchPlans(); }, []);
@@ -51,7 +51,7 @@ export default function AdminSubscriptionPage() {
       await api.post('/admin/subscription-plans', payload);
       setEditing(null);
       fetchPlans();
-    } catch {} finally { setSaving(false); }
+    } catch { /* ignored */ } finally { setSaving(false); }
   };
 
   if (loading) return <div className="flex justify-center py-12"><Spinner /></div>;

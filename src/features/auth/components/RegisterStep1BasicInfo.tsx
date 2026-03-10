@@ -23,7 +23,7 @@ export function RegisterStep1BasicInfo({ data, updateData, onNext }: Props) {
     },
   });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: Record<string, unknown>) => {
     updateData(values);
     onNext();
   };

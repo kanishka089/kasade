@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Phone, MapPin, GraduationCap, Briefcase, Users, Flag, Lock } from 'lucide-react';
-import { Button, Card, Spinner, Badge } from '@/components/ui';
+import { Phone, MapPin, GraduationCap, Briefcase, Users, Lock } from 'lucide-react';
+import { Card, Spinner, Badge } from '@/components/ui';
 import { CompatibilityMeter } from '@/components/shared/CompatibilityMeter';
 import { HoroscopeChart } from '@/components/shared/HoroscopeChart';
 import { RASHIS, NAKSHATRAS } from '@/components/shared/horoscopeData';
@@ -51,8 +51,8 @@ export default function ViewProfilePage() {
   useEffect(() => {
     if (!uid) return;
     Promise.all([
-      api.get(`/profile/${uid}`).then((r: any) => setProfile(r.data ?? r)).catch(() => {}),
-      api.get(`/match/${uid}`).then((r: any) => setMatch(r.data?.compatibility ?? r.compatibility ?? r.data)).catch(() => {}),
+      api.get(`/profile/${uid}`).then((r) => { const d = r as Record<string, unknown>; setProfile((d.data ?? d) as UserProfile); }).catch(() => {}),
+      api.get(`/match/${uid}`).then((r) => { const d = r as Record<string, unknown>; const dd = d.data as Record<string, unknown> | undefined; setMatch((dd?.compatibility ?? d.compatibility ?? dd) as MatchResult); }).catch(() => {}),
     ]).finally(() => setLoading(false));
   }, [uid]);
 

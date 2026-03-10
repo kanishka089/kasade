@@ -9,6 +9,7 @@ interface WrapperProps {
   route?: string;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 function TestProviders({ children, route = '/' }: WrapperProps) {
   return (
     <I18nextProvider i18n={i18n}>
@@ -30,5 +31,6 @@ function customRender(
   });
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export * from '@testing-library/react';
 export { customRender as render };

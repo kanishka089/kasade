@@ -16,10 +16,10 @@ export default function UserManagementPage() {
   const fetchUsers = async (p = 1) => {
     try {
       setLoading(true);
-      const res: any = await api.get(`/admin/users?page=${p}&search=${search}`);
-      setUsers(res.data?.users || []);
+      const res = await api.get(`/admin/users?page=${p}&search=${search}`) as Record<string, unknown>;
+      setUsers((res.data as Record<string, unknown>)?.users as UserProfile[] || []);
       setPage(p);
-    } catch {} finally { setLoading(false); }
+    } catch { /* ignored */ } finally { setLoading(false); }
   };
 
   useEffect(() => { fetchUsers(); }, []);

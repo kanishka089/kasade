@@ -46,6 +46,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 function ErrorFallback({ error, onRetry, onGoHome }: { error: Error | null; onRetry: () => void; onGoHome: () => void }) {
   return (
     <div className="min-h-[400px] flex items-center justify-center px-4">

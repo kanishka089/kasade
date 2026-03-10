@@ -29,8 +29,8 @@ export interface RegistrationData {
   userNakshatra?: number;
   userLagna?: number;
   // Step 3
-  calculatedHoroscope?: any;
-  chosenHoroscope?: any;
+  calculatedHoroscope?: Record<string, unknown>;
+  chosenHoroscope?: Record<string, unknown>;
   // Step 4
   education: string;
   occupation: string;
@@ -122,8 +122,8 @@ export default function RegisterPage() {
       }
 
       navigate('/search');
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
       setSubmitting(false);
     }

@@ -26,7 +26,7 @@ export default function MatchToolPage() {
       const distA = SRI_LANKAN_DISTRICTS.find((d) => d.name === a.district);
       const distB = SRI_LANKAN_DISTRICTS.find((d) => d.name === b.district);
 
-      const payload: any = {};
+      const payload: Record<string, unknown> = {};
       if (inputMode === 'birth') {
         payload.person1 = { birthDate: a.date, birthTime: a.time, birthPlace: { name: a.district, latitude: distA?.latitude || 7, longitude: distA?.longitude || 80, timezone: 'Asia/Colombo' } };
         payload.person2 = { birthDate: b.date, birthTime: b.time, birthPlace: { name: b.district, latitude: distB?.latitude || 7, longitude: distB?.longitude || 80, timezone: 'Asia/Colombo' } };
@@ -35,26 +35,29 @@ export default function MatchToolPage() {
         payload.person2 = { rashi: Number(b.rashi), nakshatra: Number(b.nakshatra) };
       }
 
-      const res: any = await api.post('/match/custom', payload);
-      setResult(res.data?.compatibility ?? res.compatibility ?? res.data);
-    } catch {
+      const res = await api.post('/match/custom', payload) as Record<string, unknown>;
+      const resData = res.data as Record<string, unknown> | undefined;
+      setResult((resData?.compatibility ?? res.compatibility ?? resData) as MatchResult);
+    } catch { /* ignored */
     } finally {
       setLoading(false);
     }
   };
 
-  const loadMyHoroscope = async (form: any) => {
+  const loadMyHoroscope = async (form: ReturnType<typeof useForm>) => {
     try {
-      const res: any = await api.get('/profile/me');
-      if (res.data?.horoscope) {
-        form.setValue('rashi', res.data.horoscope.rashi.toString());
-        form.setValue('nakshatra', res.data.horoscope.nakshatra.toString());
+      const res = await api.get('/profile/me') as Record<string, unknown>;
+      const resData = res.data as Record<string, unknown> | undefined;
+      const horoscope = resData?.horoscope as Record<string, unknown> | undefined;
+      if (horoscope) {
+        form.setValue('rashi', String(horoscope.rashi));
+        form.setValue('nakshatra', String(horoscope.nakshatra));
         setInputMode('manual');
       }
-    } catch {}
+    } catch { /* ignored */ }
   };
 
-  const PersonForm = ({ form, label }: { form: any; label: string }) => (
+  const PersonForm = ({ form, label }: { form: ReturnType<typeof useForm>; label: string }) => (
     <Card header={<div className="flex items-center gap-2"><User className="h-4 w-4" /><span className="font-semibold">{label}</span></div>}>
       {inputMode === 'birth' ? (
         <div className="space-y-3">

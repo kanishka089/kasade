@@ -26,7 +26,7 @@ export default function SearchPage() {
   const search = async (p = 1) => {
     try {
       setLoading(true);
-      const res: any = await api.post('/search', {
+      const res = await api.post('/search', {
         gender: filters.gender || undefined,
         ageRange: { min: Number(filters.ageMin), max: Number(filters.ageMax) },
         district: filters.district || undefined,
@@ -35,16 +35,16 @@ export default function SearchPage() {
         page: p,
         limit: 20,
       });
-      const profiles = (res.data?.profiles || []).map((p: any) => ({
+      const resData = (res as Record<string, unknown>).data as Record<string, unknown> | undefined;
+      const profilesList = (resData?.profiles as Record<string, unknown>[] || []).map((p) => ({
         ...p,
-        compatibilityScore: p.compatibility?.percentage,
-      }));
-      // Sort by compatibility percentage descending
-      profiles.sort((a: any, b: any) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
-      setResults(profiles);
-      setTotal(res.data?.pagination?.total || profiles.length);
+        compatibilityScore: (p.compatibility as Record<string, unknown>)?.percentage as number | undefined,
+      })) as (UserProfile & { compatibilityScore?: number })[];
+      profilesList.sort((a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
+      setResults(profilesList);
+      setTotal((resData?.pagination as Record<string, unknown>)?.total as number || profilesList.length);
       setPage(p);
-    } catch {
+    } catch { /* ignored */
     } finally {
       setLoading(false);
     }

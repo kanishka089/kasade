@@ -14,17 +14,17 @@ export default function EditProfilePage() {
   const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
-    api.get('/profile/me').then((res: any) => {
-      reset(res.data);
+    api.get('/profile/me').then((res) => {
+      reset((res as Record<string, unknown>).data as Record<string, unknown>);
     }).catch(() => {}).finally(() => setLoading(false));
   }, [reset]);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: Record<string, unknown>) => {
     try {
       setSaving(true);
       await api.put('/profile/me', values);
       navigate('/profile');
-    } catch {
+    } catch { /* ignored */
     } finally {
       setSaving(false);
     }

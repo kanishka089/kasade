@@ -46,8 +46,8 @@ export default function MyProfilePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/profile/me').then((res: any) => {
-      setProfile(res.data);
+    api.get('/profile/me').then((res) => {
+      setProfile((res as Record<string, unknown>).data as UserProfile);
     }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 

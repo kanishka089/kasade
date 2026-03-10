@@ -6,11 +6,11 @@ import api from '@/services/api';
 
 export default function DashboardPage() {
   const { t } = useTranslation();
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/admin/dashboard').then((r: any) => setStats(r.data)).catch(() => {}).finally(() => setLoading(false));
+    api.get('/admin/dashboard').then((r) => setStats((r as Record<string, unknown>).data as Record<string, unknown>)).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;

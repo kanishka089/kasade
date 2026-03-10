@@ -23,7 +23,7 @@ export function RegisterStep5Preferences({ data, updateData, onPrev, children }:
     },
   });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: Record<string, unknown>) => {
     updateData({
       preferences: {
         ageRange: { min: Number(values.ageMin), max: Number(values.ageMax) },

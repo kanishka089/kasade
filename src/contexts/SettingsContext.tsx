@@ -29,7 +29,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const fetchSettings = async () => {
     try {
       const response = await api.get('/admin/settings');
-      setSettings((response as any).data || defaultSettings);
+      setSettings((response as Record<string, unknown>).data as GlobalSettings || defaultSettings);
     } catch {
       setSettings(defaultSettings);
     } finally {
@@ -48,6 +48,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useSettings() {
   const context = useContext(SettingsContext);
   if (!context) throw new Error('useSettings must be used within SettingsProvider');

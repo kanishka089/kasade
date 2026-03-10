@@ -29,7 +29,7 @@ export function RegisterStep2BirthDetails({ data, updateData, onNext, onPrev }: 
   const selectedDistrict = watch('birthDistrict');
   const district = SRI_LANKAN_DISTRICTS.find((d) => d.name === selectedDistrict);
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: Record<string, string>) => {
     const districtData = SRI_LANKAN_DISTRICTS.find((d) => d.name === values.birthDistrict);
     updateData({
       birthTime: values.birthTime,

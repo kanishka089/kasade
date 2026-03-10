@@ -22,9 +22,9 @@ export default function AdminReportsPage() {
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const res: any = await api.get('/admin/reports');
-      setReports(res.data?.reports || res.data || []);
-    } catch {} finally { setLoading(false); }
+      const res = await api.get('/admin/reports') as Record<string, unknown>;
+      setReports((res.data as Record<string, unknown>)?.reports as Report[] || res.data as Report[] || []);
+    } catch { /* ignored */ } finally { setLoading(false); }
   };
 
   useEffect(() => { fetchReports(); }, []);

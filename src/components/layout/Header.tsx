@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Heart, LogOut, User, Settings, Search, Sparkles } from 'lucide-react';
+import { Menu, X, LogOut, User, Settings, Search, Sparkles } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import { Button } from '@/components/ui';

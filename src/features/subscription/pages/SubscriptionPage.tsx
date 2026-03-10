@@ -8,14 +8,14 @@ import type { SubscriptionPlan } from '@/types';
 export default function SubscriptionPage() {
   const { t, i18n } = useTranslation();
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
-  const [status, setStatus] = useState<any>(null);
+  const [status, setStatus] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
   const lang = i18n.language as 'en' | 'si';
 
   useEffect(() => {
     Promise.all([
-      api.get('/subscription/plans').then((r: any) => setPlans(r.data || [])).catch(() => {}),
-      api.get('/subscription/status').then((r: any) => setStatus(r.data?.subscription ?? r.data)).catch(() => {}),
+      api.get('/subscription/plans').then((r) => { const d = r as Record<string, unknown>; setPlans(d.data as SubscriptionPlan[] || []); }).catch(() => {}),
+      api.get('/subscription/status').then((r) => { const d = r as Record<string, unknown>; const dd = d.data as Record<string, unknown> | undefined; setStatus((dd?.subscription ?? dd) as Record<string, unknown>); }).catch(() => {}),
     ]).finally(() => setLoading(false));
   }, []);
 

@@ -62,8 +62,8 @@ export function horoscopeResultToData(
  * Handles both numeric indices and string names for rashi/nakshatra fields,
  * since data may come from the horoscope engine (numbers) or user-provided seed data (strings).
  */
-export function horoscopeDataToResult(data: any): HoroscopeResult {
-  function toPlanetPosition(pos: any): PlanetPosition {
+export function horoscopeDataToResult(data: Record<string, unknown>): HoroscopeResult {
+  function toPlanetPosition(pos: Record<string, unknown> | undefined): PlanetPosition {
     if (!pos) {
       return { rashi: 0, degree: 0, nakshatra: 0, nakshatraPada: 1, longitude: 0 };
     }
